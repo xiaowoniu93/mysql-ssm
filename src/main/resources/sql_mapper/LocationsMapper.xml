@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.xszheng.mapper.LocationsMapper">
+	<resultMap type="com.xszheng.domain.Locations" id="baseResult">
+		<id column="id" property="id" jdbcType="INTEGER"/>
+		<result column="street_address" property="streetAddress" jdbcType="VARCHAR"/>
+		<result column="postal_code" property="postalCode" jdbcType="VARCHAR"/>
+		<result column="city" property="city" jdbcType="VARCHAR"/>
+		<result column="province" property="province" jdbcType="VARCHAR"/>
+		<result column="country" property="country" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<insert id="add" parameterType="com.xszheng.domain.Locations" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+		insert into locations
+		(
+			street_address,
+			postal_code,
+			city,
+			province,
+			country
+		)
+		values
+		(
+			#{streetAddress},
+			#{postalCode},
+			#{city},
+			#{province},
+			#{country}
+		)
+	</insert>
+</mapper>
