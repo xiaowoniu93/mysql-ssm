@@ -1,5 +1,7 @@
 package com.xszheng.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,13 @@ public class LocationsServiceImpl implements LocationsService {
 	@Override
 	public int add(Locations loc) {
 		return locationsMapper.insert(loc);
+	}
+
+
+	@Override
+	public List<Locations> getAll() throws Exception {
+		List<Locations> list = locationsMapper.getAll();
+		return list;
 	}
 
 }

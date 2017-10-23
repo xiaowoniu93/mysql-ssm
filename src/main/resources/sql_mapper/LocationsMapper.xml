@@ -30,4 +30,12 @@
 			#{country}
 		)
 	</insert>
+	
+	<!-- 无条件获取所有记录 -->
+	<select id="getAll" resultMap="baseResult">
+		SELECT
+			*
+		FROM
+			locations
+	</select>
 </mapper>
