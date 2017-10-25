@@ -9,4 +9,33 @@
 		<result property="state" column="state" jdbcType="TINYINT"/>
 		<result property="addTime" column="add_time" jdbcType="TIMESTAMP"/>
 	</resultMap>
+	
+	<!-- 插入单条秒杀成功记录 -->
+	<insert id="insert" useGeneratedKeys="true" keyColumn="pro_stock_id" keyProperty="proStockId">
+		<!-- ignore:当主键冲突时，不报异常，返回结果为0 -->
+		INSERT ignore INTO sk_success_log
+			(pro_stock_id, user_phone, state, add_time)
+		VALUES
+			(#{proStockId}, #{userPhone}, 0, NOW())
+	</insert>
+	
+	<!-- 根据ID获取单条记录(注：需同时查出商品信息) -->
+	<select id="getOneById" resultType="com.xszheng.vo.SkSuccessLogVO">
+		SELECT
+			sl.pro_stock_id,
+			sl.user_phone,
+			sl.state,
+			sl.add_time,
+			ps.id AS "productStock.id",
+			ps.name AS "productStock.name",
+			ps.number AS "productStock.number",
+			ps.start_time AS "productStock.startTime",
+			ps.end_time AS "productStock.endTime",
+			ps.add_time AS "productStock.addTime"
+		FROM
+			sk_success_log sl, sk_product_stock ps
+		WHERE
+			sl.pro_stock_id = ps.id
+		AND sl.pro_stock_id = #{proStockId}
+	</select>
 </mapper>

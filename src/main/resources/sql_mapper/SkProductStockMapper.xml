@@ -11,4 +11,37 @@
 		<result property="endTime" column="end_time" jdbcType="TIMESTAMP"/>
 		<result property="addTime" column="add_time" jdbcType="TIMESTAMP"/>
 	</resultMap>
+	
+	<!-- 减库存 -->
+	<update id="reduceStock">
+		UPDATE
+			sk_product_stock
+		SET
+			number = number - 1
+		WHERE
+			id = #{id, jdbcType=BIGINT}
+		AND	start_time <![CDATA[<=]]> #{killTime, jdbcType=TIMESTAMP}
+		AND end_time >= #{killTime, jdbcType=TIMESTAMP}
+		AND number > 0
+	</update>
+	
+	<!-- 根据主键获取秒杀商品信息 -->
+	<select id="getOneById" parameterType="long" resultMap="baseResult">
+		SELECT
+			*
+		FROM
+			sk_product_stock
+		WHERE
+			id = #{id, jdbcType=BIGINT}
+	</select>
+	
+	<!-- 根据偏移量查询指定数量的商品信息 -->
+	<select id="getListByPage" resultMap="baseResult">
+		SELECT
+			*
+		FROM
+			sk_product_stock
+		ORDER BY add_time DESC
+		LIMIT #{skipSize}, #{pageSize}
+	</select>
 </mapper>

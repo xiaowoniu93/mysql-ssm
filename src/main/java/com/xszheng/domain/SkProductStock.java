@@ -40,7 +40,7 @@ public class SkProductStock {
 	 * 秒杀结束时间
 	 */
 	@Column(name="end_time")
-	private Date entTime;
+	private Date endTime;
 	
 	/**
 	 * 创建时间
@@ -80,12 +80,12 @@ public class SkProductStock {
 		this.startTime = startTime;
 	}
 
-	public Date getEntTime() {
-		return entTime;
+	public Date getEndTime() {
+		return endTime;
 	}
 
-	public void setEntTime(Date entTime) {
-		this.entTime = entTime;
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
 	}
 
 	public Date getAddTime() {
@@ -96,5 +96,4 @@ public class SkProductStock {
 		this.addTime = addTime;
 	}
 
-	
 }

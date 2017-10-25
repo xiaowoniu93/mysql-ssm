@@ -14,19 +14,31 @@
 		<property name="location" value="classpath:db.properties"></property>
 	</bean>
 	
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-		<property name="driverClassName" value="${jdbc.driver}"></property>
-		<property name="url" value="${jdbc.url}"></property>
-		<property name="username" value="${jdbc.username}"></property>
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass" value="${jdbc.driver}"></property>
+		<property name="jdbcUrl" value="${jdbc.url}"></property>
+		<property name="user" value="${jdbc.username}"></property>
 		<property name="password" value="${jdbc.password}"></property>
+		
+		<!-- 连接池的额外属性 -->
+		<property name="maxPoolSize" value="30"></property>
+		<property name="minPoolSize" value="10"></property>
+		<!-- 关闭连接不自动提交 commit -->
+		<property name="autoCommitOnClose" value="false"></property>
+		<!-- 获取连接超时时间 -->
+		<property name="checkoutTimeout" value="1000"></property>
+		<!-- 连接失败时 重连次数 -->
+		<property name="acquireRetryAttempts" value="2"></property>
 	</bean>
 	
+	<!-- 配置 SqlSessionFactory -->
 	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
 		<property name="configLocation" value="classpath:mybatis-config.xml"></property>
 		<property name="mapperLocations" value="classpath:sql_mapper/*Mapper.xml"></property>
 	</bean>
 	
+	<!-- 配置扫描Mapper接口的包，动态实现Mapper 接口，注入到spring 容器中 -->
 	<bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.xszheng.mapper"></property>
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryBean"></property>
