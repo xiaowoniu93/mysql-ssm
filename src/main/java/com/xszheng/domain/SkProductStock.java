@@ -96,4 +96,11 @@ public class SkProductStock {
 		this.addTime = addTime;
 	}
 
+	@Override
+	public String toString() {
+		return "SkProductStock [id=" + id + ", name=" + name + ", number="
+				+ number + ", startTime=" + startTime + ", endTime=" + endTime
+				+ ", addTime=" + addTime + "]";
+	}
+
 }

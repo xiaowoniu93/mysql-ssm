@@ -3,6 +3,8 @@ package com.xszheng.mapper;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.xszheng.domain.SkProductStock;
 
 public interface SkProductStockMapper {
@@ -15,7 +17,7 @@ public interface SkProductStockMapper {
 	 * @param killTime 秒杀时间
 	 * @return
 	 */
-	int reduceStock(Long id, Date killTime);
+	int reduceStock(@Param("id") Long id, @Param("killTime") Date killTime);
 	
 	/**
 	 * 根据主键获取秒杀商品信息
@@ -34,6 +36,6 @@ public interface SkProductStockMapper {
 	 * @param pageSize
 	 * @return
 	 */
-	List<SkProductStock> getListByPage(int skipSize, int pageSize);
+	List<SkProductStock> getListByPage(@Param("skipSize") int skipSize, @Param("pageSize") int pageSize);
 
 }

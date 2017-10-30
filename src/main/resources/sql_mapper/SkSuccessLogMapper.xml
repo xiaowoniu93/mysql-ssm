@@ -37,5 +37,6 @@
 		WHERE
 			sl.pro_stock_id = ps.id
 		AND sl.pro_stock_id = #{proStockId}
+		AND sl.user_phone = #{userPhone}
 	</select>
 </mapper>

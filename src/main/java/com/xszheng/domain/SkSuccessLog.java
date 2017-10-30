@@ -63,5 +63,11 @@ public class SkSuccessLog {
 	public void setAddTime(Date addTime) {
 		this.addTime = addTime;
 	}
+
+	@Override
+	public String toString() {
+		return "SkSuccessLog [proStockId=" + proStockId + ", userPhone="
+				+ userPhone + ", state=" + state + ", addTime=" + addTime + "]";
+	}
 	
 }

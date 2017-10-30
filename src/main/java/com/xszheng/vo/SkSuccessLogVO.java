@@ -22,5 +22,10 @@ public class SkSuccessLogVO extends SkSuccessLog {
 	public void setProductStock(SkProductStock productStock) {
 		this.productStock = productStock;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "SkSuccessLogVO [productStock=" + productStock + "]";
+	}
+
 }

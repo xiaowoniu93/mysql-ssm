@@ -1,5 +1,7 @@
 package com.xszheng.mapper;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.xszheng.vo.SkSuccessLogVO;
 
 public interface SkSuccessLogMapper {
@@ -12,7 +14,7 @@ public interface SkSuccessLogMapper {
 	 * @param userPhone 用户手机号
 	 * @return
 	 */
-	int insert(Long proStockId, String userPhone);
+	int insert(@Param("proStockId") Long proStockId, @Param("userPhone") String userPhone);
 	
 	/**
 	 * 根据ID获取单条记录(注：需同时查出商品信息)
@@ -21,6 +23,6 @@ public interface SkSuccessLogMapper {
 	 * @param proStockId
 	 * @return
 	 */
-	SkSuccessLogVO getOneById(Long proStockId);
+	SkSuccessLogVO getOneById(@Param("proStockId") Long proStockId, @Param("userPhone") String userPhone);
 
 }
