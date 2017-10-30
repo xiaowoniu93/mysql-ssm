@@ -17,7 +17,7 @@
   	<dependency>  
        <groupId>junit</groupId>  
        <artifactId>junit</artifactId>  
-       <version>4.11</version>  
+       <version>4.12</version>  
        <scope>test</scope>  
     </dependency>
     
@@ -111,10 +111,10 @@
     </dependency> -->
     <!-- 用 c3p0 数据连接池 -->
     <dependency>
-        <groupId>com.mchange</groupId>
-        <artifactId>c3p0</artifactId>
-        <version>0.9.5-pre8</version>
-    </dependency>
+	    <groupId>com.mchange</groupId>
+	    <artifactId>c3p0</artifactId>
+	    <version>0.9.5.2</version>
+	</dependency>
     
     <!-- 日志 -->
     <!-- <dependency>  
