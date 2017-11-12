@@ -1,7 +1,7 @@
 package com.xszheng.vo;
 
 /**
- * 暴露秒杀地址
+ * 暴露秒杀信息
  * @author xszheng
  *
  */
@@ -105,6 +105,12 @@ public class Exposer {
 		super();
 		this.exposed = exposed;
 		this.id = id;
+	}
+
+	@Override
+	public String toString() {
+		return "Exposer [exposed=" + exposed + ", md5=" + md5 + ", id=" + id + ", nowTime=" + nowTime + ", startTime="
+				+ startTime + ", endTime=" + endTime + "]";
 	}
 	
 }
