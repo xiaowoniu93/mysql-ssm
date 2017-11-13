@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.xszheng.domain.SkProductStock;
 import com.xszheng.exception.RepeatKillException;
@@ -60,6 +61,7 @@ public class SkProductStockServiceImpl implements SkProductStockService {
 	}
 	
 	@Override
+	@Transactional
 	public SeckillExecution executeSeckill(long id, String userPhone, String md5) throws SeckillException, RepeatKillException, SeckillCloseException {
 		if(md5 == null || !EncryptUtil.getMD5(id).equals(md5)){
 			throw new SeckillException("秒杀信息有误");
