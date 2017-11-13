@@ -76,5 +76,11 @@ public class SeckillExecution {
 	public void setSuccessLog(SkSuccessLog successLog) {
 		this.successLog = successLog;
 	}
+
+	@Override
+	public String toString() {
+		return "SeckillExecution [id=" + id + ", state=" + state + ", stateInfo=" + stateInfo + ", successLog="
+				+ successLog + "]";
+	}
 	
 }
