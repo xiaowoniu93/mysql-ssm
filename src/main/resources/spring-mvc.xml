@@ -19,6 +19,11 @@
         </property>  
     </bean> -->
     
+    <!-- 开始springmvc 的注解模式 -->
+    <!-- 
+    	1、自动注册 DefaultAnnotationHandlerMapping、AnnotationMethodHandlerAdapter
+    	2、默认提供一系列功能：数据绑定，数字、日期的格式化，比如 @NumberFormat、@DataTimeFormat，xml、json的读写支持
+    -->
     <mvc:annotation-driven>
         <mvc:message-converters>
             <bean class="org.springframework.http.converter.StringHttpMessageConverter">
@@ -51,11 +56,18 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
     
+    <!-- 静态资源默认 servlet 配置
+    	1、对静态资源的处理：js、图片等
+    	2、允许使用 / 进行整体映射
+    -->
+    <mvc:default-servlet-handler/>
+    
 	<context:annotation-config></context:annotation-config>
     
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    	<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"></property>
         <!-- 这里的配置我的理解是自动给后面action的方法return的字符串加上前缀和后缀，变成一个 可用的url地址 -->
         <property name="prefix" value="/WEB-INF/jsp/" />
-        <!-- <property name="suffix" value=".jsp" />  -->
+        <property name="suffix" value=".jsp" /> 
     </bean>
 </beans>
