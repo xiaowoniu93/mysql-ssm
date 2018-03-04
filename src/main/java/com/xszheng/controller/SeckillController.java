@@ -1,5 +1,6 @@
 package com.xszheng.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -115,5 +116,18 @@ public class SeckillController {
 			throw e;
 		}
 		return result;
+	}
+	
+	
+	/**
+	 * @description 获取系统当前时间
+	 * @date 2018年3月4日下午10:41:57
+	 * @author xszheng
+	 */
+	@RequestMapping(value="/time/now", method=RequestMethod.GET)
+	@ResponseBody
+	public SeckillResult<Long> time(){
+		Date now = new Date();
+		return new SeckillResult<>(true, now.getTime());
 	}
 }
