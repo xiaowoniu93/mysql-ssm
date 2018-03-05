@@ -5,10 +5,55 @@ var seckill={
 		URL : {
 			now : function(){
 				return '/seckill/time/now';
+			},
+			exposer : function(seckillId){
+				return '/seckill/' + seckillId + '/exposer';
+			},
+			execution : function(seckillId, md5){
+				return '/seckill/' + seckillId + '/'+ md5 + '/execution';
 			}
 		},
-		handlerSeckill : function(){
-			
+		handlerSeckill : function(seckillId, seckillBox){
+			seckillBox.hide().html('<button class="btn btn-primary btn-lg" id="killBtn">开始秒杀</button>');
+			$.post(seckill.URL.exposer(seckillId), {}, function(result){
+				// 在回调函数中执行交互流程
+				if(result && result['success']){
+					var exposer = result['data'];
+					if(exposer['exposed']){
+						// 开启秒杀
+						// 获取秒杀地址
+						var md5 = exposer['md5'];
+						var killUrl = seckill.URL.execution(seckillId, md5);
+						console.log('killUrl:'+killUrl);
+						// 绑定一次点击事件
+						$('#killBtn').one('click', function(){
+							// 执行秒杀请求
+							// 1、先禁用按钮
+							$(this).addClass('disabled');
+							// 2、执行秒杀
+							$.post(killUrl, {}, function(result){
+								if(result && result['success']){
+									var data = result['data'];
+									var state = data['state'];
+									var stateInfo = data['stateInfo'];
+									// 显示秒杀结果
+									seckillBox.html('<span class="label label-success">'+stateInfo+'</span>');
+								}
+							});
+							seckillBox.show();
+						});
+					}else{
+						// 秒杀未开始
+						var now = exposer['nowTime'];
+						var start = exposer['startTime'];
+						var end = exposer['endTime'];
+						// 重新计算计时逻辑
+						seckill.countdown(seckillId, start, end, now);
+					}
+				}else{
+					console.log('result:'+result);
+				}
+			});
 		},
 		// 验证手机号
 		validatePhone : function(phone){
@@ -31,11 +76,12 @@ var seckill={
 					var format = event.strftime('秒杀倒计时： %D天 %H小时 %M分钟 %S秒');
 					seckillBox.html(format);
 				}).on('finish.countdown', function(){	// 倒计时结束
-					seckill.handlerSeckill();
+					// 获取秒杀地址，控制显示逻辑，执行秒杀
+					seckill.handlerSeckill(seckillId, seckillBox);
 				});
 			}else{
 				// 秒杀开始
-				seckill.handlerSeckill();
+				seckill.handlerSeckill(seckillId, seckillBox);
 			}
 		},
 		// 详情页秒杀逻辑

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.xszheng.cache.RedisService;
 import com.xszheng.domain.SkProductStock;
 import com.xszheng.exception.RepeatKillException;
 import com.xszheng.exception.SeckillCloseException;
@@ -32,6 +33,9 @@ public class SkProductStockServiceImpl implements SkProductStockService {
 	
 	@Autowired
 	private SkSuccessLogMapper skSuccessLogMapper;
+	
+	@Autowired
+	private RedisService redisService;
 
 	@Override
 	public List<SkProductStock> getAll() {
@@ -47,9 +51,15 @@ public class SkProductStockServiceImpl implements SkProductStockService {
 	// 秒杀开启时输出秒杀接口地址，否则输出系统时间和秒杀开启时间
 	@Override
 	public Exposer exportSeckillUrl(long id) {
-		SkProductStock productStock = skProductStockMapper.getOneById(id);
+		// 优化点：缓存优化
+		SkProductStock productStock = redisService.getProduct(id);
 		if(productStock == null){
-			return new Exposer(false, id);
+			productStock = skProductStockMapper.getOneById(id);
+			if(productStock == null){
+				return new Exposer(false, id);
+			}else{
+				redisService.putProduct(productStock);
+			}
 		}
 		long nowTime = new Date().getTime();
 		long startTime = productStock.getStartTime().getTime();
@@ -67,25 +77,26 @@ public class SkProductStockServiceImpl implements SkProductStockService {
 			throw new SeckillException("秒杀信息有误");
 		}
 		try {
-			// 减库存
-			int reduceCount = skProductStockMapper.reduceStock(id, new Date());
-			if(reduceCount <= 0){
-				throw new SeckillCloseException("秒杀已结束");
+			// 生成秒杀成功的记录
+			int logCount = skSuccessLogMapper.insert(id, userPhone);
+			if(logCount <= 0){
+				throw new RepeatKillException("超出秒杀件数");
 			}else{
-				// 生成秒杀成功的记录
-				int logCount = skSuccessLogMapper.insert(id, userPhone);
-				if(logCount <= 0){
-					throw new RepeatKillException("超出秒杀件数");
+				// 减库存
+				int reduceCount = skProductStockMapper.reduceStock(id, new Date());
+				if(reduceCount <= 0){
+					throw new SeckillCloseException("秒杀已结束");
 				}else{
 					SkSuccessLogVO successLogVo = skSuccessLogMapper.getOneById(id, userPhone);
 					return new SeckillExecution(id, SeckillEnum.SUCCESS, successLogVo);
 				}
 			}
+			
 		} catch (Exception e) {
 			log.info("#SkProductStockServiceImpl #executeSeckill has a error:"+e.getMessage());
 			throw new SeckillException("秒杀发生异常::"+e.getMessage());
 		}
 		
 	}
-
+	
 }

@@ -112,7 +112,7 @@ public class SeckillController {
 			result = new SeckillResult<SeckillExecution>(true, execution);
 		} catch (Exception e) {
 			log.info("#SeckillController #execute has a error: {}", e.getMessage());
-			result = new SeckillResult<SeckillExecution>(false, e.getMessage());
+			result = new SeckillResult<SeckillExecution>(true, e.getMessage());
 			throw e;
 		}
 		return result;
