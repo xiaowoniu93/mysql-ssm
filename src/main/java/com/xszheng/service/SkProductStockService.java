@@ -46,4 +46,14 @@ public interface SkProductStockService {
 	 * @param md5
 	 */
 	SeckillExecution executeSeckill(long id, String userPhone, String md5) throws SeckillException, RepeatKillException, SeckillCloseException;
+	
+	/**
+	 * 执行秒杀-by procedure
+	 * @descript 
+	 * @author xszheng 2017年10月31日上午10:36:20
+	 * @param id
+	 * @param userPhone
+	 * @param md5
+	 */
+	SeckillExecution executeSeckillByProcedure(long id, String userPhone, String md5);
 }

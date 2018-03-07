@@ -1,8 +1,11 @@
 package com.xszheng.service.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.collections.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,7 +99,34 @@ public class SkProductStockServiceImpl implements SkProductStockService {
 			log.info("#SkProductStockServiceImpl #executeSeckill has a error:"+e.getMessage());
 			throw new SeckillException("秒杀发生异常::"+e.getMessage());
 		}
-		
+	}
+
+	@Override
+	public SeckillExecution executeSeckillByProcedure(long id, String userPhone, String md5) {
+		if(md5 == null || !EncryptUtil.getMD5(id).equals(md5)){
+			throw new SeckillException("秒杀信息有误");
+		}
+		Date killTime = new Date();
+		Map<String, Object> params = new HashMap<>();
+		params.put("seckillId", id);
+		params.put("phone", userPhone);
+		params.put("killTime", killTime);
+		params.put("result", null);
+		// 存储过程执行完成后，result被赋值
+		try {
+			skProductStockMapper.seckillByProcedure(params);
+			// 获取 result
+			int result = MapUtils.getInteger(params, "result", -2);
+			if(result == 1){
+				SkSuccessLogVO successLogVo = skSuccessLogMapper.getOneById(id, userPhone);
+				return new SeckillExecution(id, SeckillEnum.SUCCESS, successLogVo);
+			}else{
+				return new SeckillExecution(id, SeckillEnum.valueOf(result));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new SeckillExecution(id, SeckillEnum.INNER_ERROR);
+		}
 	}
 	
 }

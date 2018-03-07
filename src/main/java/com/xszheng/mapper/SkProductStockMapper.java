@@ -2,6 +2,7 @@ package com.xszheng.mapper;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -38,4 +39,11 @@ public interface SkProductStockMapper {
 	 */
 	List<SkProductStock> getListByPage(@Param("skipSize") int skipSize, @Param("pageSize") int pageSize);
 
+	/**
+	 * 利用存储过程执行秒杀逻辑(减库存、新增秒杀记录)
+	 * @descript 
+	 * @author xszheng 2018年3月6日上午10:18:32
+	 * @param params
+	 */
+	void seckillByProcedure(Map<String, Object> params);
 }
