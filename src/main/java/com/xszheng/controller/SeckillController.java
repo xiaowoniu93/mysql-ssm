@@ -8,13 +8,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
 import com.xszheng.domain.SkProductStock;
 import com.xszheng.service.SkProductStockService;
 import com.xszheng.vo.Exposer;
@@ -23,6 +24,7 @@ import com.xszheng.vo.SeckillResult;
 
 @Controller
 @RequestMapping(value="/seckill")
+@Api(value="/seckill", description="秒杀项目的 controller 类(SeckillController)")
 public class SeckillController {
 	
 	private static final Logger log = LoggerFactory.getLogger(SeckillController.class);
@@ -38,6 +40,7 @@ public class SeckillController {
 	 * @return
 	 */
 	@RequestMapping(value="/list", method=RequestMethod.GET)
+	@ApiOperation(value = "获取秒杀商品列表", notes="获取秒杀商品列表", httpMethod="GET", response=String.class)
 	public String list(Model model){
 		List<SkProductStock> list = skProductStockService.getAll();
 		model.addAttribute("list", list);

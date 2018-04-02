@@ -55,12 +55,17 @@
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>
+    <!-- 将SpringSwaggerConfig 加载到 spring 容器中 -->
+    <bean class="com.mangofactory.swagger.configuration.SpringSwaggerConfig"/>
+    <!-- 将自定义的 swagger 配置类加载到 spring 容器中 -->
+    <bean class="com.xszheng.config.SwaggerConfig" />
     
     <!-- 静态资源默认 servlet 配置
     	1、对静态资源的处理：js、图片等
     	2、允许使用 / 进行整体映射
     -->
     <mvc:default-servlet-handler/>
+    <mvc:resources location="/swagger/" mapping="/swagger/**"></mvc:resources>
     
 	<context:annotation-config></context:annotation-config>
     
@@ -70,4 +75,5 @@
         <property name="prefix" value="/WEB-INF/jsp/" />
         <property name="suffix" value=".jsp" /> 
     </bean>
+    
 </beans>
