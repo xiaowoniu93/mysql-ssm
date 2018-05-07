@@ -51,4 +51,18 @@ public class LocationsController {
 		List<Locations> list = locationsService.getAll();
 		return JsonUtil.newJson().addData("data", list).toJson();
 	}
+	
+	/**
+	 * 用fastjson 返回对象，测试数值类型的属性为null 时是否会自动转换为0【不会】
+	 * @author xszheng
+	 * @date 2018年5月7日下午8:06:38
+	 * @description
+	 * @param
+	 */
+	@RequestMapping(value="/testResp")
+	public JSON testResp() throws Exception{
+		Locations loc = new Locations();
+		loc.setId(null);
+		return JsonUtil.newJson().addData("data", loc).toJson();
+	}
 }
