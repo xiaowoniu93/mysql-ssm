@@ -237,6 +237,14 @@
 	    <artifactId>swagger-springmvc</artifactId>    
 	    <version>0.8.8</version>    
 	</dependency>
+	
+	<!-- poi -->
+	<dependency>
+	    <groupId>org.apache.poi</groupId>
+	    <artifactId>poi</artifactId>
+	    <version>3.15</version>
+	</dependency>
+	
   </dependencies>
   
   <build>
