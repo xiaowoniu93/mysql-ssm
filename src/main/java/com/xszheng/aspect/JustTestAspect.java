@@ -1,5 +1,8 @@
 package com.xszheng.aspect;
 
+import java.util.Arrays;
+
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -14,8 +17,10 @@ import com.alibaba.fastjson.JSONObject;
 public class JustTestAspect {
 	
 	@Before("@annotation(com.xszheng.aspect.JustTest)")
-	public void doBefore(){
+	public void doBefore(JoinPoint jp){
 		System.out.println("方法执行前。。。");
+		System.out.println("方法参数:"+Arrays.toString(jp.getArgs()));
+		System.out.println("对象："+jp.getTarget());
 	}
 	
 	@Around("@annotation(com.xszheng.aspect.JustTest)")
