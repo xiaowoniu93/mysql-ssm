@@ -2,6 +2,8 @@ package com.xszheng.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +35,8 @@ public class LocationsController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/add", method=RequestMethod.POST)
-	public String add(@RequestBody Locations loc) throws Exception{
+	public String add(/*@RequestBody*/ Locations loc, HttpServletRequest request) throws Exception{
+		System.out.println(request.getParameter("streetAddress"));
 		log.info("进入 add() 方法....");
 		locationsService.add(loc);
 		return "写入成功";
