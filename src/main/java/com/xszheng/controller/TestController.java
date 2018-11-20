@@ -1,5 +1,7 @@
 package com.xszheng.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,7 +36,14 @@ public class TestController {
 	 */
 	@RequestMapping(value="/aspectTest", method={RequestMethod.GET, RequestMethod.POST})
 	@JustTest
-	public JSON aspectTest(@RequestParam(value="name") String name){
+	public JSON aspectTest(@RequestParam(value="name") String name, HttpServletRequest request){
+		System.err.println("request.getParameterMap():"+request.getParameterMap());
+		System.err.println("servlet path:"+request.getServletPath());	// /test/aspectTest
+		System.err.println("context path:"+request.getContextPath());	// /ssm
+		System.err.println("URI:"+request.getRequestURI());		// /ssm/test/aspectTest
+		System.err.println("URL:"+request.getRequestURL());		// http://localhost:8080/ssm/test/aspectTest
+		System.out.println(request.getParameter("name"));
+		System.out.println(request.getParameter("name"));
 		JSONObject returnJson = new JSONObject();
 		returnJson.put("name", name);
 		return returnJson;
