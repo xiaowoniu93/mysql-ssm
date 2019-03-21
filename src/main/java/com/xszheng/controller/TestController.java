@@ -2,6 +2,8 @@ package com.xszheng.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +17,8 @@ import com.xszheng.aspect.JustTest;
 @RequestMapping(value="/test")
 public class TestController {
 	
+	private static final Logger logger = LoggerFactory.getLogger(TestController.class);
+	
 	/**
 	 * 接收入参测试
 	 * @param code
@@ -23,6 +27,7 @@ public class TestController {
 	 */
 	@RequestMapping(value="/receiveParam", method=RequestMethod.GET)
 	public String receiveParam(@RequestParam(value="code") Integer code, @RequestParam(value="codes") Integer[] codes){
+		logger.info("code={}, codes={}", code, codes);
 		JSONObject param = new JSONObject();
 		param.put("code", code);
 		param.put("codes", codes);
